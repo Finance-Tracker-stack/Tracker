@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Finance Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#008000">
+
+<!-- App Icons -->
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+<!-- Service Worker -->
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => console.log('✅ Service Worker registered'))
+      .catch((err) => console.log('❌ SW registration failed:', err));
+  }
+</script>
+</head>
+<body>
+  <div class="container">
+    <h1>💰 Personal Finance Tracker</h1>
+
+    <!-- Overall Summary -->
+    <div class="summary">
+      <p><strong>Total Balance:</strong> ₹<span id="balance">0</span></p>
+      <p><strong>Total Income:</strong> ₹<span id="income">0</span></p>
+      <p><strong>Total Expense:</strong> ₹<span id="expense">0</span></p>
+    </div>
+
+    <!-- Monthly / Weekly Summary -->
+    <div class="summary-split">
+      <div>
+        <h3>📆 This Month</h3>
+        <p>Income: ₹<span id="monthly-income">0</span></p>
+        <p>Expense: ₹<span id="monthly-expense">0</span></p>
+      </div>
+      <div>
+        <h3>📅 This Week</h3>
+        <p>Income: ₹<span id="weekly-income">0</span></p>
+        <p>Expense: ₹<span id="weekly-expense">0</span></p>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <form id="transactionForm">
+      <input type="text" id="desc" placeholder="Description (e.g. Grocery)" required>
+      <input type="number" id="amount" placeholder="Amount (e.g. 500)" required>
+
+      <select id="type" required>
+        <option value="">Type</option>
+        <option value="income">Income</option>
+        <option value="expense">Expense</option>
+      </select>
+
+      <select id="category" required>
+        <option value="">Category</option>
+        <option value="Salary">Salary</option>
+        <option value="Food">Food</option>
+        <option value="Rent">Rent</option>
+        <option value="Travel">Travel</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Utility">Utility</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <input type="date" id="date" required>
+
+      <button type="submit">➕ Add Transaction</button>
+    </form>
+
+    <!-- History -->
+    <h2>📋 Transaction History</h2>
+<div class="table-container">
+  <table id="transactionsTable">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Amount (₹)</th>
+        <th>Type</th>
+        <th>Category</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Rows from JS -->
+    </tbody>
+  </table>
+</div>
+
+<!-- Export Button -->
+<button onclick="exportCSV()">📤 Export as CSV</button>
+
+    <!-- Category Breakdown Table -->
+    <h2>📂 Category Summary</h2>
+    <table id="categoryTable">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Income (₹)</th>
+          <th>Expense (₹)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Filled via JS -->
+      </tbody>
+    </table>
+
+    <!-- Chart -->
+    <h2>📊 Income vs Expense Graph</h2>
+    <canvas id="financeChart" width="300" height="150"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
