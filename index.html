@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finance Tracker</title>
+
+  <!-- PWA Setup -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="icon-512.png" />
+  <meta name="theme-color" content="#008000" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('sw.js')
+        .then(() => console.log('✅ SW Registered'))
+        .catch((err) => console.log('❌ SW Failed', err));
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>💰 Finance Tracker</h1>
+
+    <div class="summary">
+      <p><strong>Total Balance:</strong> ₹<span id="balance">0</span></p>
+      <p><strong>Total Income:</strong> ₹<span id="income">0</span></p>
+      <p><strong>Total Expense:</strong> ₹<span id="expense">0</span></p>
+    </div>
+
+    <div class="summary-split">
+      <div>
+        <h3>This Month</h3>
+        <p>Income: ₹<span id="monthly-income">0</span></p>
+        <p>Expense: ₹<span id="monthly-expense">0</span></p>
+      </div>
+      <div>
+        <h3>This Week</h3>
+        <p>Income: ₹<span id="weekly-income">0</span></p>
+        <p>Expense: ₹<span id="weekly-expense">0</span></p>
+      </div>
+    </div>
+
+    <form id="transactionForm">
+      <input type="text" id="desc" placeholder="Description" required />
+      <input type="number" id="amount" placeholder="Amount" required />
+      <select id="type" required>
+        <option value="">Select Type</option>
+        <option value="income">Income</option>
+        <option value="expense">Expense</option>
+      </select>
+      <select id="category" required>
+        <option value="">Select Category</option>
+        <option>Salary</option>
+        <option>Food</option>
+        <option>Rent</option>
+        <option>Travel</option>
+        <option>Shopping</option>
+        <option>Other</option>
+      </select>
+      <input type="date" id="date" required />
+      <button type="submit">➕ Add</button>
+    </form>
+
+    <h2>📋 History</h2>
+    <div class="table-container">
+      <table id="transactionsTable">
+        <thead>
+          <tr>
+            <th>Date</th><th>Desc</th><th>₹</th><th>Type</th><th>Cat</th><th>❌</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <button onclick="exportCSV()">⬇️ Export CSV</button>
+
+    <h2>📂 Summary by Category</h2>
+    <table id="categoryTable">
+      <thead><tr><th>Category</th><th>Income</th><th>Expense</th></tr></thead>
+      <tbody></tbody>
+    </table>
+
+    <h2>📊 Chart</h2>
+    <canvas id="financeChart" width="300" height="150"></canvas>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
